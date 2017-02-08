@@ -11,9 +11,6 @@ router.get('/', controller.find)
 // Get by Id
 router.get('/:id', controller.findById)
 
-// Replace
-router.put('/:id', validators.replace, controller.findOneAndUpdate)
-
 // Update
 router.patch('/:id', validators.update, controller.findOneAndUpdate)
 

@@ -1,6 +1,6 @@
 const rfr = require('rfr')
 const actionsPath = './actions/'
-const model = require('../users/model').model
+const model = require('../user/model').model
 const extend = require('extend')
 const jwt = require('jsonwebtoken')
 

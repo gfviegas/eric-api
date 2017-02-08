@@ -8,8 +8,9 @@ router.get('/test', (req, res) => {
  * Use the modules routes. It's safer doing in a separate file than magically, to
  * be sure nester routes will be applied correctly.
  */
-router.use('/users', require('./users/routes'))
+router.use('/users', require('./user/routes'))
 router.use('/auth', require('./auth/routes'))
+router.use('/page-content', require('./pageContent/routes'))
 router.use('/example', require('./example/routes'))
 
 // Return router
