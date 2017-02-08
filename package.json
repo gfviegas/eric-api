@@ -6,6 +6,8 @@
   "scripts": {
     "test": "npm run test:integration && npm run test:unit",
     "start": "nodemon index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
+    "prod": "NODE_ENV=production nodemon index.js",
     "test:integration": "mocha tests/integration/**/*.spec.js",
     "test:unit": "mocha tests/unit/**/*.spec.js",
     "test:report": "nyc --reporter=html --reporter=text mocha tests/**/*.spec.js"
@@ -29,13 +31,16 @@
   },
   "homepage": "https://github.com/gfviegas/express-rest-api#readme",
   "dependencies": {
+    "bcrypt": "^1.0.2",
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
     "express-validator": "^3.0.0",
     "extend": "^3.0.0",
+    "jsonwebtoken": "^7.2.1",
     "mongoose": "^4.7.2",
+    "mongoose-bcrypt": "^1.4.2",
     "morgan": "^1.7.0",
     "rfr": "^1.2.3",
     "validator": "^6.2.0"
