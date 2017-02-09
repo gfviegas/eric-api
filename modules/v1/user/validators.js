@@ -31,5 +31,6 @@ module.exports = {
   update: (req, res, next) => {
     req.checkBody('name', {error: 'length', min: 4, max: 20}).len(4, 20)
     req.checkBody('email', {error: 'invalid'}).isEmail()
+    next()
   }
 }
