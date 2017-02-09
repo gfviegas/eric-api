@@ -23,6 +23,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
 app.use(validator())
+app.use(express.static('public'))
 
 // Set global response headers
 app.use((req, res, next) => {

@@ -2,7 +2,18 @@ const jwt = require('jsonwebtoken')
 
 const getTokenFromRequest = (req) => {
   const authorization = req.header('authorization')
+  if (!authorization) { return false }
   return authorization.split(' ')[1] // Bearer
+}
+
+const getPayload = (req) => {
+  const token = getTokenFromRequest(req)
+  return jwt.decode(token)
+}
+
+const getUserId = (req) => {
+  const data = getPayload(req)
+  return data.sub
 }
 
 const middleware = (req, res, next) => {
@@ -22,6 +33,8 @@ const middleware = (req, res, next) => {
 }
 
 module.exports = {
+  getPayload,
+  getUserId,
   getTokenFromRequest,
   middleware
 }

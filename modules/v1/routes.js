@@ -11,7 +11,7 @@ router.get('/test', (req, res) => {
 router.use('/users', require('./user/routes'))
 router.use('/auth', require('./auth/routes'))
 router.use('/page-content', require('./pageContent/routes'))
-router.use('/example', require('./example/routes'))
+router.use('/news', require('./news/routes'))
 
 // Return router
 module.exports = router
