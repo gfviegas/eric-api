@@ -8,7 +8,8 @@ const structure = {
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   description: {
     type: String,

@@ -1,6 +1,6 @@
 const rfr = require('rfr')
 const actionsPath = './actions/'
-const model = require('./model').model
+const Model = require('./model').model
 const extend = require('extend')
 
 const controllerActions = {}
@@ -8,7 +8,7 @@ const controllerActions = {}
 // Import default actions
 const importActions = ['create', 'find', 'findById', 'findOneAndUpdate', 'update', 'remove']
 const createMethods = (element, index) => {
-  controllerActions[element] = rfr(actionsPath + element)(model)
+  controllerActions[element] = rfr(actionsPath + element)(Model)
 }
 importActions.forEach(createMethods)
 
@@ -16,6 +16,14 @@ importActions.forEach(createMethods)
 const customMethods = {
   test: (req, res) => {
     res.status(200).json({tested: true})
+  },
+  checkExists: (req, res) => {
+    Model
+      .count(req.body)
+      .exec((err, value) => {
+        if (err) throw err
+        res.status(200).json({exists: !!(value >= 1)})
+      })
   }
 }
 

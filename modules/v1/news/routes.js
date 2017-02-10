@@ -5,7 +5,7 @@ const validators = require('./validators')
 const jwtMiddleware = rfr('/helpers/jwt').middleware
 
 // Create
-router.post('/', [jwtMiddleware, validators.create], controller.create)
+router.post('/', [jwtMiddleware, validators.create, validators.uniqueSlugValidator], controller.create)
 
 // Get
 router.get('/', [], controller.find)
@@ -14,7 +14,7 @@ router.get('/', [], controller.find)
 router.get('/:id', [], controller.findById)
 
 // Update
-router.patch('/:id', [jwtMiddleware, validators.update], controller.findOneAndUpdate)
+router.patch('/:id', [jwtMiddleware, validators.update, validators.uniqueSlugValidator], controller.findOneAndUpdate)
 
 // Delete
 router.delete('/:id', [jwtMiddleware], controller.remove)

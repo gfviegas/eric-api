@@ -10,11 +10,11 @@ router.post('/', [jwtMiddleware, validators.create], controller.create)
 // Get
 router.get('/', [jwtMiddleware], controller.find)
 
+// Check if exists
+router.post('/email', [validators.email], controller.checkExists)
+
 // Get by Id
 router.get('/:id', [], controller.findById)
-
-// Replace
-router.put('/:id', [jwtMiddleware, validators.replace], controller.findOneAndUpdate)
 
 // Update
 router.patch('/:id', [jwtMiddleware, validators.update], controller.findOneAndUpdate)

@@ -6,6 +6,11 @@ const structure = {
     type: String,
     required: true
   },
+  slug: {
+    type: String,
+    required: true,
+    unique: true
+  },
   image: {
     type: String,
     default: 'news/no_image.jpg'

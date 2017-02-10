@@ -19,6 +19,7 @@ const customMethods = {
     const query = {}
     Model
       .find(query)
+      .sort({'created_at': -1})
       .populate('last_updated_by')
       .exec((err, data) => {
         if (err) throw err
