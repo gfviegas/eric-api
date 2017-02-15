@@ -1,5 +1,33 @@
 const rfr = require('rfr')
 const handleValidation = rfr('/helpers/validation')
+const Model = require('./model').model
+
+const uniqueEmailValidator = (req, res, next) => {
+  Model
+    .findOne({email: req.body.email})
+    .exec((err, value) => {
+      if (err) throw err
+
+      if (!value) {
+        next()
+      } else {
+        if (req.params.id && value._id.equals(req.params.id)) {
+          next()
+        } else {
+          const errorMessage = {
+            'email': {
+              param: 'email',
+              msg: {
+                error: 'unique'
+              }
+            }
+          }
+          res.status(409).json(errorMessage)
+          return false
+        }
+      }
+    })
+}
 
 const nameValidators = (req) => {
   req.checkBody('name', {error: 'required'}).notEmpty()
@@ -36,5 +64,6 @@ module.exports = {
   email (req, res, next) {
     emailValidators(req)
     handleValidation(req, res, next)
-  }
+  },
+  uniqueEmailValidator
 }
