@@ -26,13 +26,37 @@ const findOneAndUpdate = (query, mod, res) => {
 const customMethods = {
   find: (req, res) => {
     const query = {}
+    const pagOptions = {
+      page: Number.parseInt(req.query.page - 1) || 0,
+      limit: Number.parseInt(req.query.limit) || 15
+    }
+
     Model
       .find(query)
-      .sort({'created_at': -1})
-      .populate('last_updated_by')
-      .exec((err, data) => {
+      .count()
+      .exec((err, count) => {
         if (err) throw err
-        res.status(200).json(data)
+
+        const meta = {
+          currentPage: (pagOptions.page + 1),
+          limit: pagOptions.limit,
+          totalPages: Math.ceil(count / pagOptions.limit)
+        }
+
+        Model
+        .find(query)
+        .sort({'created_at': -1})
+        .skip(pagOptions.page * pagOptions.limit)
+        .limit(pagOptions.limit)
+        .populate('last_updated_by')
+        .exec((err, data) => {
+          if (err) throw err
+          const response = {
+            news: data,
+            meta: meta
+          }
+          res.status(200).json(response)
+        })
       })
   },
   create: (req, res) => {
