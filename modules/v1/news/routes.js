@@ -4,6 +4,10 @@ const controller = require('./controller')
 const validators = require('./validators')
 const jwtMiddleware = rfr('/helpers/jwt').middleware
 
+// File Upload Handling
+const multer = require('multer')
+const upload = multer({ dest: 'public/news' })
+
 // Create
 router.post('/', [jwtMiddleware, validators.create, validators.uniqueSlugValidator], controller.create)
 
@@ -14,7 +18,7 @@ router.get('/', [], controller.find)
 router.get('/:id', [], controller.findById)
 
 // Update
-router.patch('/:id', [jwtMiddleware, validators.update, validators.uniqueSlugValidator], controller.findOneAndUpdate)
+router.patch('/:id', [jwtMiddleware, validators.update, validators.uniqueSlugValidator], upload.single('image'), controller.update)
 
 // Delete
 router.delete('/:id', [jwtMiddleware], controller.remove)

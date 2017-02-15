@@ -38,4 +38,6 @@ jspm_packages
 
 # Other stuff
 .DS_Store
-public/*
+public/news/**/*
+!public/news/no_image.jpg
+tmp/*
