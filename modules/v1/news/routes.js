@@ -15,7 +15,7 @@ router.post('/', [jwtMiddleware, validators.create, validators.uniqueSlugValidat
 router.get('/', [], controller.find)
 
 // Get by Id
-router.get('/:id', [], controller.findById)
+router.get('/:id', [], controller.findByIdOrSlug)
 
 // Update
 router.patch('/:id', [jwtMiddleware, validators.update, validators.uniqueSlugValidator], upload.single('image'), controller.update)

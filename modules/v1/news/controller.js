@@ -4,11 +4,12 @@ const actionsPath = './actions/'
 const Model = require('./model').model
 const extend = require('extend')
 const jwtHelper = rfr('helpers/jwt')
+const ObjectId = require('mongoose').Types.ObjectId
 
 const controllerActions = {}
 
 // Import default actions
-const importActions = ['findById', 'findOneAndUpdate', 'update', 'remove']
+const importActions = ['findOneAndUpdate', 'update', 'remove']
 const createMethods = (element, index) => {
   controllerActions[element] = rfr(actionsPath + element)(Model)
 }
@@ -24,6 +25,13 @@ const findOneAndUpdate = (query, mod, res) => {
 
 // Controller custom actions
 const customMethods = {
+  findByIdOrSlug: (req, res) => {
+    const query = (ObjectId.isValid(req.params.id)) ? {_id: req.params.id} : {slug: req.params.id}
+    Model.findOne(query, (err, data) => {
+      if (err) throw err
+      res.status(200).json(data)
+    })
+  },
   find: (req, res) => {
     const query = {}
     const pagOptions = {
