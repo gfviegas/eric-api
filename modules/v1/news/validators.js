@@ -45,6 +45,10 @@ const newsValidator = (req) => {
   contentValidators(req)
   slugValidators(req)
 }
+const updateViews = (req, res, next) => {
+  req.checkBody('views', {error: 'required'}).notEmpty()
+  next()
+}
 
 module.exports = {
   create: (req, res, next) => {
@@ -56,5 +60,6 @@ module.exports = {
     req.checkBody('slug', {error: 'length', min: 4, max: 100}).len(4, 100)
     next()
   },
-  uniqueSlugValidator
+  uniqueSlugValidator,
+  updateViews
 }

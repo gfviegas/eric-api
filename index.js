@@ -37,6 +37,10 @@ versions.forEach((version) => {
   app.use('/api/' + version, versionRoutes)
 })
 
+app.get('/', (req, res) => {
+  res.status(200).json({})
+})
+
 // Start server
 server.start(app)
 

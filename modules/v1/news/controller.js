@@ -44,13 +44,11 @@ const customMethods = {
       .count()
       .exec((err, count) => {
         if (err) throw err
-
         const meta = {
           currentPage: (pagOptions.page + 1),
           limit: pagOptions.limit,
           totalPages: Math.ceil(count / pagOptions.limit)
         }
-
         Model
         .find(query)
         .sort({'created_at': -1})
@@ -116,6 +114,16 @@ const customMethods = {
     } else {
       findOneAndUpdate(query, mod, res)
     }
+  },
+  updateViews: (req, res) => {
+    const query = {_id: req.params.id}
+    const views = req.body.views
+
+    Model.findOneAndUpdate(query, {$set: {views: views}}, {new: true}, (err, data) => {
+      if (err) throw err
+
+      res.status(200).json(data)
+    })
   }
 }
 
