@@ -5,6 +5,7 @@ const Model = require('./model').model
 const extend = require('extend')
 const jwtHelper = rfr('helpers/jwt')
 const ObjectId = require('mongoose').Types.ObjectId
+const FB = rfr('helpers/facebook')
 
 const controllerActions = {}
 
@@ -20,6 +21,29 @@ const findOneAndUpdate = (query, mod, res) => {
     if (err) throw err
 
     res.status(200).json(data)
+  })
+}
+
+const createFacebookPost = (instance) => {
+  const data = {
+    published: false,
+    message: `Notícias! ${instance.title} - Veja mais no link. #Escoteiros #EscoteirosDeMinas`,
+    link: `http://www.google.com`,
+    // link: `${process.env.NEWS_URL}${instance.slug}`,
+    scheduled_publish_time: Math.round(new Date().getTime() / 1000) + (60 * 60)
+  }
+  FB.api(`${process.env.FB_PAGE}/feed`, 'post', data, (res) => {
+    if (!res || res.error) {
+      console.log(!res ? 'error occurred' : res.error)
+      console.log(data, FB.getAccessToken())
+      return false
+    }
+
+    const query = {_id: instance._id}
+    const mod = {$set: {fb_post_id: res.post_id}}
+    Model.findOneAndUpdate(query, mod, {new: true}, (err, data) => {
+      if (err) throw err
+    })
   })
 }
 
@@ -72,11 +96,13 @@ const customMethods = {
 
     modelInstance.save((err, data) => {
       if (err) throw err
+      createFacebookPost(data)
+
       data
-        .populate('last_updated_by', (err, news) => {
-          if (err) throw err
-          res.status(201).json(news)
-        })
+      .populate('last_updated_by', (err, news) => {
+        if (err) throw err
+        res.status(200).json(news)
+      })
     })
   },
   update: (req, res) => {
