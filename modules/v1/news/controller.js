@@ -6,6 +6,7 @@ const extend = require('extend')
 const jwtHelper = rfr('helpers/jwt')
 const ObjectId = require('mongoose').Types.ObjectId
 const FB = rfr('helpers/facebook')
+const jimp = require('jimp')
 
 const controllerActions = {}
 
@@ -120,9 +121,9 @@ const customMethods = {
 
       let fileName = ''
       if (file.mimetype === 'image/jpeg' || 'image/jpg') {
-        fileName = `${file.filename}.jpg`
+        fileName = `image.jpg`
       } else if (file.mimetype === 'image/png') {
-        fileName = `${file.filename}.png`
+        fileName = `image.png`
       } else {
         return res.status(422).json({format: 'invalid_format'})
       }
@@ -136,6 +137,16 @@ const customMethods = {
         mod['image'] = `${modelPath}/${fileName}`
 
         findOneAndUpdate(query, mod, res)
+
+        jimp.read(newFile)
+          .then((image) => {
+            image.resize(480, 480)
+              .quality(90)
+              .write(newFile)
+          })
+          .catch((error) => {
+            throw error
+          })
       })
     } else {
       findOneAndUpdate(query, mod, res)
