@@ -9,17 +9,22 @@ const clearModel = (Model, cb) => {
   return Model.remove({}, cb)
 }
 
-const seed = (Model, data) => {
+const clearAndSeed = (Model, data) => {
   return new Promise((resolve, reject) => {
     clearModel(Model, err => {
       if (err) throw err
-      Model.create(data).then(data => resolve(data)).catch(data => reject(0))
+      Model.create(data).then(data => resolve(data)).catch(data => reject(data))
     })
   })
+}
+
+const seed = (Model, data) => {
+  return Model.create(data)
 }
 
 module.exports = {
   connect,
   clearModel,
+  clearAndSeed,
   seed
 }
