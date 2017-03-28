@@ -19,6 +19,7 @@ const customMethods = {
     const payload = {
       sub: user.id,
       data: {
+        role: user.role,
         name: user.name
       }
     }
