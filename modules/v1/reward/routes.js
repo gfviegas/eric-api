@@ -11,7 +11,7 @@ router.post('/', [validators.create], controller.create)
 router.get('/', [], controller.find)
 
 // Get by Id
-router.get('/:id', [], controller.findById)
+router.get('/:id', [validators.find], controller.findById)
 
 // Update
 router.patch('/:id', [jwtMiddleware, validators.update], controller.update)

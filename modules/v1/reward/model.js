@@ -17,7 +17,7 @@ const structure = {
     type: String,
     required: true
   },
-  badge: {
+  reward: {
     type: String
   },
   author: {

@@ -36,6 +36,10 @@ const giftedValidators = (req, required) => {
 }
 
 module.exports = {
+  find: (req, res, next) => {
+    req.checkParams('id', {error: 'invalid'}).isMongoId()
+    handleValidation(req, res, next)
+  },
   create: (req, res, next) => {
     typeValidators(req, true)
     resumeValidators(req)
