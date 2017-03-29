@@ -14,7 +14,7 @@ router.get('/', [], controller.find)
 router.get('/:id', [validators.find], controller.findById)
 
 // Update
-router.patch('/:id', [jwtMiddleware, validators.update], controller.update)
+router.patch('/:id', [jwtMiddleware, validators.update], controller.findOneAndUpdate)
 
 // Delete
 router.delete('/:id', [jwtMiddleware], controller.remove)
