@@ -21,7 +21,11 @@ const middleware = (req, res, next) => {
   if (token && token.length > 0) {
     jwt.verify(token, process.env.APP_SECRET, (err, decoded) => {
       if (err) {
-        res.status(401).json({error: err.message.split(' ').join('_').toLowerCase()})
+        if (err.name === 'TokenExpiredError') {
+          res.status(403).json({error: 'token_expired'})
+        } else {
+          res.status(401).json({error: err.message.split(' ').join('_').toLowerCase()})
+        }
         return false
       }
       next()

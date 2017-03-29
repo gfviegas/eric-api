@@ -56,11 +56,11 @@ module.exports = {
     handleValidation(req, res, next)
   },
   update: (req, res, next) => {
-    typeValidators(req, false)
+    // typeValidators(req, false)
     statusValidators(req)
-    resumeValidators(req)
-    authorValidators(req, false)
-    giftedValidators(req, false)
+    // resumeValidators(req)
+    // authorValidators(req, false)
+    // giftedValidators(req, false)
     handleValidation(req, res, next)
   }
 }
