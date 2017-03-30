@@ -29,8 +29,7 @@ const createFacebookPost = (instance) => {
   const data = {
     published: false,
     message: `Notícias! ${instance.title} - Veja mais no link. #Escoteiros #EscoteirosDeMinas`,
-    link: `http://www.google.com`,
-    // link: `${process.env.NEWS_URL}${instance.slug}`,
+    link: `${process.env.NEWS_URL}${instance.slug}`,
     scheduled_publish_time: Math.round(new Date().getTime() / 1000) + (60 * 60)
   }
   FB.api(`${process.env.FB_PAGE}/feed`, 'post', data, (res) => {
