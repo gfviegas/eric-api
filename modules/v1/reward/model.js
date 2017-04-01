@@ -20,6 +20,10 @@ const structure = {
     type: String
   },
   author: {
+    name: {
+      type: String,
+      required: true
+    },
     register: {
       type: String,
       required: true
