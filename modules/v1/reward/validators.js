@@ -12,10 +12,6 @@ const statusValidators = (req) => {
   req.checkBody('status', {error: 'invalid'}).isIn(['waiting', 'analyzing', 'issued', 'rejected', 'approved'])
 }
 
-const resumeValidators = (req) => {
-  req.checkBody('resume', {error: 'required'}).notEmpty()
-}
-
 const authorValidators = (req, required) => {
   if (required) {
     req.checkBody('author.register', {error: 'required'}).notEmpty()
@@ -42,7 +38,6 @@ module.exports = {
   },
   create: (req, res, next) => {
     typeValidators(req, true)
-    resumeValidators(req)
     authorValidators(req, true)
     giftedValidators(req, true)
     handleValidation(req, res, next)
@@ -50,7 +45,6 @@ module.exports = {
   replace: (req, res, next) => {
     typeValidators(req, true)
     statusValidators(req)
-    resumeValidators(req)
     authorValidators(req, true)
     giftedValidators(req, true)
     handleValidation(req, res, next)

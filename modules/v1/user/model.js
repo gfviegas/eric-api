@@ -20,7 +20,10 @@ const structure = {
     required: true,
     bcrypt: true,
     select: false
-  }
+  },
+  roles: [{
+    type: String
+  }]
 }
 
 const options = {

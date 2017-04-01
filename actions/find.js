@@ -1,6 +1,6 @@
 module.exports = (model) => {
   return (req, res) => {
-    const query = {}
+    const query = (req.query) || {}
     model
       .find(query)
       .sort({'created_at': '-1'})

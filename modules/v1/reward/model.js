@@ -14,8 +14,7 @@ const structure = {
     default: 'waiting'
   },
   resume: {
-    type: String,
-    required: true
+    type: String
   },
   reward: {
     type: String
