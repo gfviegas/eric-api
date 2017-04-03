@@ -5,7 +5,7 @@ const typeValidators = (req, required) => {
   if (required) {
     req.checkBody('type', {error: 'required'}).notEmpty()
   }
-  req.checkBody('type', {error: 'invalid'}).isIn(['badge', 'reward'])
+  req.checkBody('type', {error: 'invalid'}).isIn(['badge', 'reward', 'sower'])
 }
 
 const statusValidators = (req) => {
