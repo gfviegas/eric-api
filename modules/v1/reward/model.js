@@ -6,7 +6,7 @@ const structure = {
   type: {
     type: String,
     required: true,
-    enum: ['badge', 'reward']
+    enum: ['badge', 'reward', 'sower']
   },
   status: {
     type: String,

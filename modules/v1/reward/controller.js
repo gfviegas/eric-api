@@ -13,8 +13,9 @@ const createMethods = (element, index) => {
 }
 importActions.forEach(createMethods)
 
-const badgeMail = 'rodrigo.martins@escoteirosmg.org.br'
-const rewardMail = 'condecoracoes@escoteirosmg.org.br'
+const badgeMail = 'rodrigo.martins@escoteirosmg.org.br, gustavo83geosc@gmail.com'
+const rewardMail = 'condecoracoes@escoteirosmg.org.br, gustavo83geosc@gmail.com'
+const sowerMail = 'condecoracoes@escoteirosmg.org.br, gustavo83geosc@gmail.com'
 
 // Controller custom actions
 const customMethods = {
@@ -42,7 +43,16 @@ const customMethods = {
           to: rewardMail,
           subject: 'Nova Solicitação de Condecoração/Recompensa',
           template: {
-            path: 'reward/new',
+            path: 'rewards/new',
+            data: modelInstance
+          }
+        }
+      } else if (modelInstance.type === 'sower') {
+        options = {
+          to: rewardMail,
+          subject: 'Nova Solicitação de Distintivo de Semeador',
+          template: {
+            path: 'sower/new',
             data: modelInstance
           }
         }

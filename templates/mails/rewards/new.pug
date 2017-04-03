@@ -3,12 +3,13 @@ html(xmlns="http://www.w3.org/1999/xhtml")
     meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
     meta(name="viewport" content="width=device-width")
   body
-    h2 Nova Solicitação de Distintivo Especial.
-    p Foi recebida uma nova solicitação de distintivo especial da Região Escoteira de Minas Gerais.
-    p Confira no sistema administrativo, para atualizar o status: #[a(href="http://admin.uebmg.org.br/badges/update/#{_id}") Link]
+    h2 Nova Solicitação de Condecoração/Recompensa.
+    p Foi recebida uma nova solicitação de condecoração/recompensa da Região Escoteira de Minas Gerais.
+    p Confira no sistema administrativo, para atualizar o status: #[a(href="http://admin.uebmg.org.br/rewards/update/#{_id}") Link]
     dl
       dt Dados da Solicitação:
       dd #[strong Solicitação:] #{reward}
+      dd #[strong Justificativa:] #{resume}
       
       dt Dados do Solicitatne:
       dd #[strong Nome:] #{author.name}
