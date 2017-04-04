@@ -40,7 +40,7 @@ const createFacebookPost = (instance) => {
     }
 
     const query = {_id: instance._id}
-    const mod = {$set: {fb_post_id: res.post_id}}
+    const mod = {$set: {fb_post_id: (res.post_id || res.id)}}
     Model.findOneAndUpdate(query, mod, {new: true}, (err, data) => {
       if (err) throw err
     })
@@ -96,12 +96,13 @@ const customMethods = {
 
     modelInstance.save((err, data) => {
       if (err) throw err
-      createFacebookPost(data)
-
       data
       .populate('last_updated_by', (err, news) => {
         if (err) throw err
         res.status(200).json(news)
+
+        // Post on facebook after 5 minutes
+        setTimeout(() => { createFacebookPost(data) }, (60 * 5) * 1000)
       })
     })
   },
