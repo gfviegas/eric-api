@@ -61,5 +61,14 @@
     "sinon-mongoose": "^1.3.0",
     "standard": "^8.6.0",
     "supertest": "^2.0.1"
+  },
+  "standard": {
+    "globals": [
+      "describe",
+      "it",
+      "expect",
+      "beforeEach",
+      "afterEach"
+    ]
   }
 }

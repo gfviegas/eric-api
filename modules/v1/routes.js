@@ -1,21 +1,5 @@
 const router = require('express').Router()
 
-const rfr = require('rfr')
-const mailer = rfr('helpers/mailer')
-router.post('/test', (req, res) => {
-  let options = {
-    to: 'gustavo83geosc@gmail.com',
-    subject: 'Um assunto de teste',
-    template: {
-      path: 'test/test',
-      data: {
-        name: 'Gustavo Viegas'
-      }
-    }
-  }
-  mailer.sendMail(options)
-})
-
 router.get('/test', (req, res) => {
   res.json({message: 'v1 working!'})
 })

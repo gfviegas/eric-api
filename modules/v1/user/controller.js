@@ -14,9 +14,6 @@ importActions.forEach(createMethods)
 
 // Controller custom actions
 const customMethods = {
-  test: (req, res) => {
-    res.status(200).json({tested: true})
-  },
   checkExists: (req, res) => {
     Model
       .count(req.body)

@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "7.5.0"
+  - "7"
+script:
+  - npm test:unit
+# - provider: script
+#     script: deploy.sh production
+#     on:
+#       branch: master

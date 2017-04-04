@@ -1,6 +1,6 @@
 const handleValidation = (req, res, next) => {
-  return req.getValidationResult().then((result) => {
-    console.log(result.array())
+  return req.getValidationResult()
+  .then((result) => {
     if (!result.isEmpty()) {
       let errors = result.useFirstErrorOnly().mapped()
       res.status(422).json(errors)
@@ -8,6 +8,9 @@ const handleValidation = (req, res, next) => {
     } else {
       next()
     }
+  })
+  .catch((error) => {
+    throw error
   })
 }
 

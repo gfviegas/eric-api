@@ -41,3 +41,4 @@ jspm_packages
 public/news/**/*
 !public/news/no_image.jpg
 tmp/*
+deploy.sh

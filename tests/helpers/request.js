@@ -13,7 +13,15 @@ const isEmail = (req) => { return sinon.stub(req, 'isEmail').returnsThis() }
 const getValidationResult = (req) => {
   return sinon.stub(req, 'getValidationResult', () => {
     return new Promise((resolve, reject) => {
-      resolve({})
+      resolve({
+        array: () => {
+          return []
+        },
+        isEmpty: () => {
+          return true
+        },
+        next: () => {}
+      })
     })
   })
 }

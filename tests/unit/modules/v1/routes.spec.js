@@ -7,7 +7,6 @@ const routesHelper = rfr('./tests/helpers/routes')(moduleRoutes)
 const routes = routesHelper.getRoutes()
 
 describe('Modules V1: Routes', () => {
-  console.log(routes)
   describe('HEAD', () => {
     it('should not have any HEAD routes', () => {
       expect(routes.head.length).to.equal(0)
