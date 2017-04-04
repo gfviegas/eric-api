@@ -3,7 +3,7 @@ node_js:
   - "7.5.0"
   - "7"
 script:
-  - npm test:unit
+  - npm run test:unit
 env:
   - CXX=g++-4.8
 addons:
