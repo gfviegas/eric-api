@@ -12,6 +12,10 @@ const titleValidators = (req) => {
   req.checkBody('title', {error: 'required'}).notEmpty()
 }
 
+const fileValidators = (req) => {
+  req.checkBody('file', {error: 'required'}).notEmpty()
+}
+
 module.exports = {
   find: (req, res, next) => {
     req.checkParams('id', {error: 'invalid'}).isMongoId()
@@ -25,6 +29,7 @@ module.exports = {
   replace: (req, res, next) => {
     typeValidators(req, true)
     titleValidators(req)
+    fileValidators(req)
     handleValidation(req, res, next)
   },
   update: (req, res, next) => {
