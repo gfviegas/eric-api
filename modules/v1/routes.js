@@ -9,6 +9,7 @@ router.get('/test', (req, res) => {
  * be sure nester routes will be applied correctly.
  */
 router.use('/auth', require('./auth/routes'))
+router.use('/documents', require('./document/routes'))
 router.use('/districts', require('./district/routes'))
 router.use('/events', require('./event/routes'))
 router.use('/news', require('./news/routes'))
