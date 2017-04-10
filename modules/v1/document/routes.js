@@ -17,8 +17,8 @@ router.get('/', [], controller.find)
 // Get by Id
 router.get('/:id', [], controller.findById)
 
-// Update
-router.patch('/:id', [jwtMiddleware, validators.update], upload.single('file'), controller.update)
+// Replace
+router.put('/:id', [jwtMiddleware, validators.replace], upload.single('file'), controller.update)
 
 // Delete
 router.delete('/:id', [jwtMiddleware], controller.remove)
