@@ -3,10 +3,13 @@ const rfr = require('rfr')
 const actionsPath = './actions/'
 const Model = require('./model').model
 const extend = require('extend')
-const jwtHelper = rfr('helpers/jwt')
 const ObjectId = require('mongoose').Types.ObjectId
-const FB = rfr('helpers/facebook')
 const jimp = require('jimp')
+
+const jwtHelper = rfr('helpers/jwt')
+const errorHandler = rfr('helpers/error')
+const FB = rfr('helpers/facebook')
+const prerender = rfr('helpers/prerender')
 
 const controllerActions = {}
 
@@ -26,24 +29,33 @@ const findOneAndUpdate = (query, mod, res) => {
 }
 
 const createFacebookPost = (instance) => {
-  const data = {
-    published: false,
-    message: `Notícias! ${instance.title} - Veja mais no link. #Escoteiros #EscoteirosDeMinas`,
-    link: `${process.env.NEWS_URL}${instance.slug}`,
-    scheduled_publish_time: Math.round(new Date().getTime() / 1000) + (60 * 60)
-  }
-  FB.api(`${process.env.FB_PAGE}/feed`, 'post', data, (res) => {
-    if (!res || res.error) {
-      console.log(!res ? 'error occurred' : res.error)
-      console.log(data, FB.getAccessToken())
-      return false
+  const newsUrl = `${process.env.NEWS_URL}${instance.slug}`
+  prerender.recache(newsUrl)
+  .then(() => {
+    const data = {
+      published: false,
+      message: `Notícias! ${instance.title} - Veja mais no link. #Escoteiros #EscoteirosDeMinas`,
+      link: newsUrl,
+      scheduled_publish_time: Math.round(new Date().getTime() / 1000) + (60 * 60)
     }
+    FB.api(`${process.env.FB_PAGE}/feed`, 'post', data, (res) => {
+      if (!res || res.error) {
+        errorHandler.sendMail({message: `Erro ao postar a noticia ${newsUrl}.`, trace: JSON.stringify(res.error)})
+        return false
+      }
 
-    const query = {_id: instance._id}
-    const mod = {$set: {fb_post_id: (res.post_id || res.id)}}
-    Model.findOneAndUpdate(query, mod, {new: true}, (err, data) => {
-      if (err) throw err
+      const query = {_id: instance._id}
+      const mod = {$set: {fb_post_id: (res.post_id || res.id)}}
+      Model.findOneAndUpdate(query, mod, {new: true}, (err, data) => {
+        if (err) {
+          errorHandler.sendMail({message: `Erro ao atualizar a noticia pós-postagem ${newsUrl}.`, trace: JSON.stringify(err)})
+          throw err
+        }
+      })
     })
+  })
+  .catch(() => {
+    errorHandler.sendMail({message: `Erro ao limpar o cache do prerender da url ${newsUrl}. O post no facebook não foi criado.`})
   })
 }
 
