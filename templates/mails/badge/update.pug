@@ -22,5 +22,5 @@ block append content
           h2 Atualização de Status:
           p.text-left 
             dd #[strong Sua Solicitação:] #{reward} para #{gifted.name}
-            dd #[strong Novo Status:] #{status}
+            dd #[strong Novo Status:] #{email.rewardStatus(status)}
             dd #[strong Código de Referência:] #{_id}
