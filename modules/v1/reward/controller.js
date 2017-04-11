@@ -13,12 +13,12 @@ const createMethods = (element, index) => {
 }
 importActions.forEach(createMethods)
 
-const badgeMail = 'gustavo83geosc@gmail.com'
-const rewardMail = 'gustavo83geosc@gmail.com'
-const sowerMail = 'gustavo83geosc@gmail.com'
-// const badgeMail = 'rodrigo.martins@escoteirosmg.org.br, gustavo83geosc@gmail.com'
-// const rewardMail = 'condecoracoes@escoteirosmg.org.br, gustavo83geosc@gmail.com'
-// const sowerMail = 'condecoracoes@escoteirosmg.org.br, gustavo83geosc@gmail.com'
+// const badgeMail = 'gustavo83geosc@gmail.com'
+// const rewardMail = 'gustavo83geosc@gmail.com'
+// const sowerMail = 'gustavo83geosc@gmail.com'
+const badgeMail = 'rodrigo.martins@escoteirosmg.org.br, gustavo83geosc@gmail.com'
+const rewardMail = 'condecoracoes@escoteirosmg.org.br, gustavo83geosc@gmail.com'
+const sowerMail = 'condecoracoes@escoteirosmg.org.br, gustavo83geosc@gmail.com'
 
 // Controller custom actions
 const customMethods = {
