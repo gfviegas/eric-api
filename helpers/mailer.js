@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer')
 const pug = require('pug')
+const emailData = require('../config/template').email
 
 const transporter = nodemailer.createTransport({
   secure: true,
@@ -15,8 +16,9 @@ const transporter = nodemailer.createTransport({
 })
 
 const sendMail = (options) => {
+  const data = Object.assign({email: emailData}, options.template.data)
   const mailPath = `${process.cwd()}/templates/mails/${options.template.path}.pug`
-  const htmlstream = pug.renderFile(mailPath, options.template.data)
+  const htmlstream = pug.renderFile(mailPath, data)
   const mailOptions = {
     from: '"Escoteiros de Minas Gerais ⚜️ 🔺" <contato@escoteirosmg.org.br>',
     to: options.to,
