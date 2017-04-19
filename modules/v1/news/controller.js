@@ -69,7 +69,19 @@ const customMethods = {
     })
   },
   find: (req, res) => {
-    const query = {}
+    let query = {}
+
+    if (req.query.filter) {
+      let regex = new RegExp(req.query.filter, 'i')
+      query = {
+        '$or': [
+          {title: regex},
+          {content: regex},
+          {slug: regex}
+        ]
+      }
+    }
+
     const pagOptions = {
       page: Number.parseInt(req.query.page - 1) || 0,
       limit: Number.parseInt(req.query.limit) || 15
