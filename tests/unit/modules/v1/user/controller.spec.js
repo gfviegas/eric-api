@@ -9,24 +9,24 @@ describe('Module User: Controller', () => {
     expect(controller).to.contain.all.keys(['create', 'find', 'findById', 'findOneAndUpdate', 'update', 'remove', 'checkExists'])
   })
 
-  // describe('Method Test', () => {
-  //   it('should be a function', () => {
-  //     expect(controller.test).to.be.a('function')
-  //   })
-  //
-  //   it('should send a valid response', () => {
-  //     let res = {
-  //       status: (code) => {
-  //         return res
-  //       },
-  //       json: (data) => {
-  //         expect(data).to.be.a('object')
-  //         expect(data).to.contain.all.keys(['tested'])
-  //         expect(data.tested).to.be.true
-  //       }
-  //     }
-  //
-  //     controller.test({}, res)
-  //   })
-  // })
+  describe('Method checkExists', () => {
+    it('should be a function', () => {
+      expect(controller.checkExists).to.be.a('function')
+    })
+
+    it('should send a valid response', () => {
+      let res = {
+        status: (code) => {
+          return res
+        },
+        json: (data) => {
+          expect(data).to.be.a('object')
+          expect(data).to.contain.all.keys(['tested'])
+          expect(data.tested).to.be.true
+        }
+      }
+
+      controller.checkExists({}, res)
+    })
+  })
 })

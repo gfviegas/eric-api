@@ -7,7 +7,7 @@ const jwtHelper = rfr('helpers/jwt')
 const controllerActions = {}
 
 // Import default actions
-const importActions = ['create', 'findOneAndUpdate', 'find', 'findById', 'remove']
+const importActions = ['findOneAndUpdate', 'findById', 'remove']
 const createMethods = (element, index) => {
   controllerActions[element] = rfr(actionsPath + element)(Model)
 }
