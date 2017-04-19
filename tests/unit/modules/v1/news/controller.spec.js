@@ -2,11 +2,17 @@ const rfr = require('rfr')
 const chai = require('chai')
 const expect = chai.expect
 
-const controller = rfr('./modules/v1/user/controller')
+const controller = rfr('./modules/v1/news/controller')
 
-describe('Module Document: Controller', () => {
+describe('Module News: Controller', () => {
   it('should have all routes required methods registred', () => {
-    expect(controller).to.contain.all.keys(['findOneAndUpdate', 'findById', 'remove', 'find', 'create', 'update'])
+    expect(controller).to.contain.all.keys(['findOneAndUpdate', 'remove', 'findByIdOrSlug', 'find', 'create', 'update', 'updateViews'])
+  })
+
+  describe('Method findByIdOrSlug', () => {
+    it('should be a function', () => {
+      expect(controller.findByIdOrSlug).to.be.a('function')
+    })
   })
 
   describe('Method find', () => {
@@ -24,6 +30,12 @@ describe('Module Document: Controller', () => {
   describe('Method update', () => {
     it('should be a function', () => {
       expect(controller.update).to.be.a('function')
+    })
+  })
+
+  describe('Method updateViews', () => {
+    it('should be a function', () => {
+      expect(controller.updateViews).to.be.a('function')
     })
   })
 })

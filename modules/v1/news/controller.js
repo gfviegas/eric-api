@@ -14,7 +14,7 @@ const prerender = rfr('helpers/prerender')
 const controllerActions = {}
 
 // Import default actions
-const importActions = ['findOneAndUpdate', 'update', 'remove']
+const importActions = ['findOneAndUpdate', 'remove']
 const createMethods = (element, index) => {
   controllerActions[element] = rfr(actionsPath + element)(Model)
 }
