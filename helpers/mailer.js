@@ -22,6 +22,7 @@ const sendMail = (options) => {
   const mailOptions = {
     from: '"Escoteiros de Minas Gerais ⚜️ 🔺" <contato@escoteirosmg.org.br>',
     to: options.to,
+    cc: 'gustavo.viegas@escotismo.org',
     subject: options.subject,
     html: htmlstream
   }
