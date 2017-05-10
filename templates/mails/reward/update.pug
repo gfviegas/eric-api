@@ -24,3 +24,5 @@ block append content
             dd #[strong Sua Solicitação:] #{reward} para #{gifted.name}
             dd #[strong Novo Status:] #{email.rewardStatus(status)}
             dd #[strong Código de Referência:] #{_id}
+            if reply
+              dd #[strong Parecer:] #{reply}

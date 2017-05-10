@@ -16,6 +16,9 @@ const structure = {
   resume: {
     type: String
   },
+  reply: {
+    type: String
+  },
   reward: {
     type: String
   },
