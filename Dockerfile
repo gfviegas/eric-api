@@ -1,14 +1,13 @@
 FROM node:alpine
 
-RUN mkdir -p /var/www/eric-api
+RUN apk add --no-cache git make gcc g++ python
+
+WORKDIR /tmp
+COPY package.json /tmp/
+RUN yarn install --pure-lockfile
+
 WORKDIR /var/www/eric-api
+RUN cp -a /tmp/node_modules /var/www/eric-api/
 
-RUN apk add --no-cache make gcc g++ python
-
-COPY package.json /var/www/eric-api
-RUN npm i --silent --no-progress
-
-COPY . /var/www/eric-api
-
-EXPOSE 3000
-CMD ["npm", "run", "dev"]
+EXPOSE 8888
+CMD ["yarn", "run", "dev"]
