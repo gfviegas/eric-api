@@ -1,0 +1,50 @@
+extends ../base-layout.pug
+
+block append banner
+  td(bgcolor='#ffffff')
+    img.fluid(src=`${email.imgPath}level.jpg`, aria-hidden='true', width='680', height='', alt='alt_text', border='0', align='center', style='width: 100%; max-width: 680px; height: auto; background: #dddddd; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555;')
+block append content
+  td(bgcolor='#ffffff')
+    table(role='presentation', aria-hidden='true', cellspacing='0', cellpadding='0', border='0', width='100%')
+      tr
+        td(style='padding: 40px; text-align: center; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555;')
+          h2 Nova Solicitação de Nível.
+          p.text-left Foi recebida uma nova solicitação de nível da Região Escoteira de Minas Gerais.
+          p.text-left Para atualizar o status, você deve editar os dados no sistema administrativo:
+          br
+          table(role='presentation', aria-hidden='true', cellspacing='0', cellpadding='0', border='0', align='center', style='margin: auto')
+            tr
+              td.button-td(style='border-radius: 3px; background: #222222; text-align: center;')
+                a.button-a(href=`${email.admin_url}level/update/${_id}`, style='background: #222222; border: 15px solid #222222; font-family: sans-serif; font-size: 13px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold;')
+                  span.button-link(style='color:#ffffff;') &nbsp;&nbsp;&nbsp;&nbsp;Confira no Sistema&nbsp;&nbsp;&nbsp;&nbsp;
+      tr
+        td(style='padding: 40px; text-align: left; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555;')
+          h2 Dados da Solicitação:
+          //- p.text-left 
+          //-   dd #[strong Solicitação:] #{reward}
+          //- p.text-left 
+          //-   dd #[strong Justificativa:] #{resume}
+          //- br
+          //- h2 Dados do(a) Solicitante:
+          //- p.text-left
+          //-   dd #[strong Nome:] #{author.name}
+          //- p.text-left
+          //-   dd #[strong Registro:] #{author.register}
+          //- p.text-left
+          //-   dd #[strong Email:] #{author.email}
+          //- p.text-left
+          //-   dd #[strong Telefone:] #{author.phone}
+          //- p.text-left
+          //-   dd #[strong Celular:] #{author.cellphone}
+          //- p.text-left
+          //-   dd #[strong Grupo Escoteiro:] #{author.group.number} - #{author.group.name}
+          //- p.text-left
+          //-   dd #[strong Função:] #{author.role}
+          //- br
+          //- h2 Dados do(a) Agraciado(a)
+          //- p.text-left
+          //-   dd #[strong Nome:] #{gifted.name}
+          //- p.text-left
+          //-   dd #[strong Registro:] #{gifted.register}
+          //- p.text-left
+          //-   dd #[strong Grupo Escoteiro:] #{gifted.group.number} - #{gifted.group.name}
