@@ -5,6 +5,7 @@ const Model = modelRequired.model
 const emails = modelRequired.emails
 const extend = require('extend')
 const mailer = rfr('helpers/mailer')
+const createQueryObject = rfr('helpers/request').createQueryObject
 
 const controllerActions = {}
 
@@ -18,11 +19,11 @@ importActions.forEach(createMethods)
 // Controller custom actions
 const customMethods = {
   find: (req, res) => {
-    let query = {}
+    let query = createQueryObject(req)
 
-    if (req.query.filter) {
+    if (req.query.filter && req.query.filter.length) {
       let regex = new RegExp(req.query.filter, 'i')
-      query = {
+      query = Object.assign(query, {
         '$or': [
           {title: regex},
           {reward: regex},
@@ -32,7 +33,7 @@ const customMethods = {
           {'gifted.name': regex},
           {'gifted.group.name': regex}
         ]
-      }
+      })
     }
 
     const pagOptions = {

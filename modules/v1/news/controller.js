@@ -10,6 +10,7 @@ const jwtHelper = rfr('helpers/jwt')
 const errorHandler = rfr('helpers/error')
 const FB = rfr('helpers/facebook')
 const prerender = rfr('helpers/prerender')
+const createQueryObject = rfr('helpers/request').createQueryObject
 
 const controllerActions = {}
 
@@ -69,17 +70,17 @@ const customMethods = {
     })
   },
   find: (req, res) => {
-    let query = {}
+    let query = createQueryObject(req)
 
-    if (req.query.filter) {
+    if (req.query.filter && req.query.filter.length) {
       let regex = new RegExp(req.query.filter, 'i')
-      query = {
+      query = Object.assign(query, {
         '$or': [
           {title: regex},
           {content: regex},
           {slug: regex}
         ]
-      }
+      })
     }
 
     const pagOptions = {

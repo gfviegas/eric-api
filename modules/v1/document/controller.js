@@ -3,6 +3,7 @@ const actionsPath = './actions/'
 const Model = require('./model').model
 const extend = require('extend')
 const jwtHelper = rfr('helpers/jwt')
+const createQueryObject = rfr('helpers/request').createQueryObject
 
 const controllerActions = {}
 
@@ -16,18 +17,18 @@ importActions.forEach(createMethods)
 // Controller custom actions
 const customMethods = {
   find: (req, res) => {
-    let query = {}
+    let query = createQueryObject(req)
 
-    if (req.query.filter) {
+    if (req.query.filter && req.query.filter.length) {
       let regex = new RegExp(req.query.filter, 'i')
-      query = {
+      query = Object.assign(query, {
         '$or': [
           {title: regex},
           {description: regex},
           {file: regex},
           {type: regex}
         ]
-      }
+      })
     }
 
     const pagOptions = {
