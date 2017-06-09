@@ -81,7 +81,7 @@ describe('Module Document: Validators', () => {
     })
     it('should verify type valid', () => {
       expect(checkBody.calledWith('type', {error: 'invalid'})).to.be.true
-      expect(isIn.calledWith(['book', 'notice', 'ordinance', 'other'])).to.be.true
+      expect(isIn.calledWith(['book', 'notice', 'resolution', 'ordinance', 'balance', 'minute', 'other'])).to.be.true
     })
   })
 
@@ -109,7 +109,7 @@ describe('Module Document: Validators', () => {
     })
     it('should verify type valid', () => {
       expect(checkBody.calledWith('type', {error: 'invalid'})).to.be.true
-      expect(isIn.calledWith(['book', 'notice', 'ordinance', 'other'])).to.be.true
+      expect(isIn.calledWith(['book', 'notice', 'resolution', 'ordinance', 'balance', 'minute', 'other'])).to.be.true
     })
     it('should verify file required', () => {
       expect(checkBody.calledWith('file', {error: 'required'})).to.be.true
@@ -137,7 +137,7 @@ describe('Module Document: Validators', () => {
     })
     it('should verify type valid', () => {
       expect(checkBody.calledWith('type', {error: 'invalid'})).to.be.true
-      expect(isIn.calledWith(['book', 'notice', 'ordinance', 'other'])).to.be.true
+      expect(isIn.calledWith(['book', 'notice', 'resolution', 'ordinance', 'balance', 'minute', 'other'])).to.be.true
     })
   })
 })
