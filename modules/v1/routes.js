@@ -1,7 +1,19 @@
 const router = require('express').Router()
 
-router.get('/test', (req, res) => {
-  res.json({message: 'TESTE!'})
+const rfr = require('rfr')
+const mailer = rfr('helpers/mailer')
+
+router.post('/test', (req, res) => {
+  const options = {
+    to: 'webviegas@gmail.com',
+    subject: 'Teste',
+    template: {
+      path: 'test/test',
+      data: {}
+    }
+  }
+  const returned = mailer.sendMail(options)
+  res.json({message: returned})
 })
 
 /**

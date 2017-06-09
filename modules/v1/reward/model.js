@@ -6,7 +6,7 @@ const structure = {
   type: {
     type: String,
     required: true,
-    enum: ['badge', 'reward', 'sower']
+    enum: ['badge', 'reward', 'sower', 'level', 'book']
   },
   status: {
     type: String,
@@ -84,10 +84,19 @@ const options = {
   }
 }
 
+const emails = {
+  badge: 'rodrigo.martins@escoteirosmg.org.br',
+  reward: 'condecoracoes@escoteirosmg.org.br',
+  sower: 'condecoracoes@escoteirosmg.org.br',
+  level: 'gestao.adultos@escoteirosmg.org.br',
+  book: 'gestao.adultos@escoteirosmg.org.br'
+}
+
 const schema = mongoose.Schema(structure, options)
 const model = mongoose.model(modelName, schema)
 
 module.exports = {
+  emails: emails,
   schema: schema,
   model: model
 }

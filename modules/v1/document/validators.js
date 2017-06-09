@@ -5,7 +5,7 @@ const typeValidators = (req, required) => {
   if (required) {
     req.checkBody('type', {error: 'required'}).notEmpty()
   }
-  req.checkBody('type', {error: 'invalid'}).isIn(['book', 'notice', 'ordinance', 'other'])
+  req.checkBody('type', {error: 'invalid'}).isIn(['book', 'notice', 'resolution', 'ordinance', 'balance', 'minute', 'other'])
 }
 
 const titleValidators = (req) => {

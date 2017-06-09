@@ -1,6 +1,8 @@
 const rfr = require('rfr')
 const actionsPath = './actions/'
-const Model = require('./model').model
+const modelRequired = require('./model')
+const Model = modelRequired.model
+const emails = modelRequired.emails
 const extend = require('extend')
 const mailer = rfr('helpers/mailer')
 
@@ -12,10 +14,6 @@ const createMethods = (element, index) => {
   controllerActions[element] = rfr(actionsPath + element)(Model)
 }
 importActions.forEach(createMethods)
-
-const badgeMail = 'rodrigo.martins@escoteirosmg.org.br'
-const rewardMail = 'condecoracoes@escoteirosmg.org.br'
-const sowerMail = 'condecoracoes@escoteirosmg.org.br'
 
 // Controller custom actions
 const customMethods = {
@@ -31,7 +29,7 @@ const customMethods = {
       let options = {}
       if (modelInstance.type === 'badge') {
         options = {
-          to: badgeMail,
+          to: emails[modelInstance.type],
           subject: 'Nova Solicitação de Distintivo Especial',
           template: {
             path: 'badge/new',
@@ -40,7 +38,7 @@ const customMethods = {
         }
       } else if (modelInstance.type === 'reward') {
         options = {
-          to: rewardMail,
+          to: emails[modelInstance.type],
           subject: 'Nova Solicitação de Condecoração/Recompensa',
           template: {
             path: 'reward/new',
@@ -49,10 +47,28 @@ const customMethods = {
         }
       } else if (modelInstance.type === 'sower') {
         options = {
-          to: sowerMail,
+          to: emails[modelInstance.type],
           subject: 'Nova Solicitação de Distintivo de Semeador',
           template: {
             path: 'sower/new',
+            data: modelInstance.toObject()
+          }
+        }
+      } else if (modelInstance.type === 'level') {
+        options = {
+          to: emails[modelInstance.type],
+          subject: 'Nova Solicitação de Nível',
+          template: {
+            path: 'level/new',
+            data: modelInstance.toObject()
+          }
+        }
+      } else if (modelInstance.type === 'book') {
+        options = {
+          to: emails[modelInstance.type],
+          subject: 'Nova Solicitação de Caderno/Projeto',
+          template: {
+            path: 'book/new',
             data: modelInstance.toObject()
           }
         }
@@ -94,6 +110,24 @@ const customMethods = {
           subject: 'Atualização de Solicitação de Distintivo de Semeador 👌 👀',
           template: {
             path: 'sower/update',
+            data: data.toObject()
+          }
+        }
+      } else if (data.type === 'level') {
+        options = {
+          to: emails[data.type],
+          subject: 'Atualização de Solicitação de Nível 👌 👀',
+          template: {
+            path: 'level/new',
+            data: data.toObject()
+          }
+        }
+      } else if (data.type === 'book') {
+        options = {
+          to: emails[data.type],
+          subject: 'Atualização de Solicitação de Caderno/Projeto 👌 👀',
+          template: {
+            path: 'book/new',
             data: data.toObject()
           }
         }

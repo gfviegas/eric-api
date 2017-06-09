@@ -38,17 +38,17 @@ const structure = {
 }
 
 const emails = {
-  communication: 'gustavo83geosc@gmail.com',
-  reward: 'gustavo83geosc@gmail.com',
-  growth: 'gustavo83geosc@gmail.com',
-  office: 'gustavo83geosc@gmail.com',
-  financial: 'gustavo83geosc@gmail.com',
-  adults: 'gustavo83geosc@gmail.com',
-  institutional: 'gustavo83geosc@gmail.com',
-  youngs: 'gustavo83geosc@gmail.com',
-  legal: 'gustavo83geosc@gmail.com',
-  ombudsman: 'gustavo83geosc@gmail.com',
-  educative: 'gustavo83geosc@gmail.com'
+  communication: 'comunicacao@escoteirosmg.org.br',
+  reward: 'condecoracoes@escoteirosmg.org.br',
+  growth: 'marcos.vieira@escoteirosmg.org.br',
+  office: 'escritorio@escoteirosmg.org.br',
+  financial: 'giovani.ramos@escoteirosmg.org.br',
+  adults: 'gestao.adultos@escoteirosmg.org.br',
+  institutional: 'marcos.vieira@escoteirosmg.org.br',
+  youngs: 'b.runadeandrade@hotmail.com',
+  legal: 'kirkpereira@hotmail.com',
+  ombudsman: 'ouvidoria@escoteirosmg.org.br',
+  educative: 'rodrigo.martins@escoteirosmg.org.br'
 }
 
 const getContactType = (type) => {

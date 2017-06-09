@@ -8,7 +8,7 @@ const structure = {
   },
   type: {
     type: String,
-    enum: ['book', 'notice', 'ordinance', 'other'],
+    enum: ['book', 'notice', 'resolution', 'ordinance', 'balance', 'minute', 'other'],
     required: true
   },
   file: {
