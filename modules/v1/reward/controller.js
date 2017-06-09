@@ -9,7 +9,7 @@ const mailer = rfr('helpers/mailer')
 const controllerActions = {}
 
 // Import default actions
-const importActions = ['find', 'findById', 'update', 'remove']
+const importActions = ['findById', 'update', 'remove']
 const createMethods = (element, index) => {
   controllerActions[element] = rfr(actionsPath + element)(Model)
 }
@@ -17,6 +17,55 @@ importActions.forEach(createMethods)
 
 // Controller custom actions
 const customMethods = {
+  find: (req, res) => {
+    let query = {}
+
+    if (req.query.filter) {
+      let regex = new RegExp(req.query.filter, 'i')
+      query = {
+        '$or': [
+          {title: regex},
+          {reward: regex},
+          {reward: regex},
+          {'author.name': regex},
+          {'author.group.name': regex},
+          {'gifted.name': regex},
+          {'gifted.group.name': regex}
+        ]
+      }
+    }
+
+    const pagOptions = {
+      page: Number.parseInt(req.query.page - 1) || 0,
+      limit: Number.parseInt(req.query.limit) || 15
+    }
+
+    Model
+      .find(query)
+      .count()
+      .exec((err, count) => {
+        if (err) throw err
+        const meta = {
+          currentPage: (pagOptions.page + 1),
+          limit: pagOptions.limit,
+          totalPages: Math.ceil(count / pagOptions.limit)
+        }
+        Model
+        .find(query)
+        .sort({'created_at': -1})
+        .skip(pagOptions.page * pagOptions.limit)
+        .limit(pagOptions.limit)
+        .populate('last_updated_by')
+        .exec((err, data) => {
+          if (err) throw err
+          const response = {
+            requests: data,
+            meta: meta
+          }
+          res.status(200).json(response)
+        })
+      })
+  },
   create: (req, res) => {
     const data = req.body
     const modelInstance = new Model(data)
