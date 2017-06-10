@@ -39,6 +39,7 @@ jspm_packages
 # Other stuff
 .DS_Store
 public/news/**/*
+public/files/rewards/book/**/*
 !public/news/no_image.jpg
 tmp/*
 deploy.sh
