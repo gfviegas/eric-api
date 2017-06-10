@@ -22,6 +22,9 @@ const structure = {
   reward: {
     type: String
   },
+  file: {
+    type: String
+  },
   author: {
     name: {
       type: String,
@@ -53,6 +56,14 @@ const structure = {
         type: String,
         required: true
       }
+    },
+    formation: {
+      lines: {
+        type: String
+      },
+      levels: {
+        type: String
+      }
     }
   },
   gifted: {
@@ -63,6 +74,9 @@ const structure = {
     register: {
       type: String,
       required: true
+    },
+    email: {
+      type: String
     },
     group: {
       number: {

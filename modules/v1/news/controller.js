@@ -134,10 +134,8 @@ const customMethods = {
   update: (req, res) => {
     const query = {_id: req.params.id}
     const mod = req.body
-    const file = req.file
-    console.log(req.file)
+    const file = req.files.image
     if (file) {
-      const path = file.path
       const modelPath = `news/${req.params.id}`
       const localPath = `${process.cwd()}/public/${modelPath}`
       if (!fs.existsSync(localPath)) {
@@ -154,7 +152,7 @@ const customMethods = {
       }
 
       const newFile = localPath + '/' + fileName
-      fs.rename(path, newFile, (err) => {
+      fs.writeFile(newFile, file.data, (err) => {
         if (err) {
           res.status(500).json({error: err})
         }

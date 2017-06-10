@@ -1,4 +1,5 @@
 const rfr = require('rfr')
+const fs = require('fs')
 const actionsPath = './actions/'
 const modelRequired = require('./model')
 const Model = modelRequired.model
@@ -15,6 +16,58 @@ const createMethods = (element, index) => {
   controllerActions[element] = rfr(actionsPath + element)(Model)
 }
 importActions.forEach(createMethods)
+
+const sendCreateEmail = (modelInstance) => {
+  let options = {}
+  if (modelInstance.type === 'badge') {
+    options = {
+      to: emails[modelInstance.type],
+      subject: 'Nova Solicitação de Distintivo Especial',
+      template: {
+        path: 'badge/new',
+        data: modelInstance.toObject()
+      }
+    }
+  } else if (modelInstance.type === 'reward') {
+    options = {
+      to: emails[modelInstance.type],
+      subject: 'Nova Solicitação de Condecoração/Recompensa',
+      template: {
+        path: 'reward/new',
+        data: modelInstance.toObject()
+      }
+    }
+  } else if (modelInstance.type === 'sower') {
+    options = {
+      to: emails[modelInstance.type],
+      subject: 'Nova Solicitação de Distintivo de Semeador',
+      template: {
+        path: 'sower/new',
+        data: modelInstance.toObject()
+      }
+    }
+  } else if (modelInstance.type === 'level') {
+    options = {
+      to: emails[modelInstance.type],
+      subject: 'Nova Solicitação de Nível',
+      template: {
+        path: 'level/new',
+        data: modelInstance.toObject()
+      }
+    }
+  } else if (modelInstance.type === 'book') {
+    options = {
+      to: emails[modelInstance.type],
+      subject: 'Nova Solicitação de Caderno/Projeto',
+      template: {
+        path: 'book/new',
+        data: modelInstance.toObject()
+      }
+    }
+  }
+
+  if (options !== {}) mailer.sendMail(options)
+}
 
 // Controller custom actions
 const customMethods = {
@@ -71,61 +124,37 @@ const customMethods = {
     const data = req.body
     const modelInstance = new Model(data)
 
-    modelInstance.save((err, data) => {
-      if (err) throw err
+    if (req.files) {
+      const file = req.files.file
+      const modelPath = `files/rewards/${modelInstance.type}/${modelInstance._id}`
+      const localPath = `${process.cwd()}/public/${modelPath}`
 
-      res.status(201).json(modelInstance)
-
-      let options = {}
-      if (modelInstance.type === 'badge') {
-        options = {
-          to: emails[modelInstance.type],
-          subject: 'Nova Solicitação de Distintivo Especial',
-          template: {
-            path: 'badge/new',
-            data: modelInstance.toObject()
-          }
-        }
-      } else if (modelInstance.type === 'reward') {
-        options = {
-          to: emails[modelInstance.type],
-          subject: 'Nova Solicitação de Condecoração/Recompensa',
-          template: {
-            path: 'reward/new',
-            data: modelInstance.toObject()
-          }
-        }
-      } else if (modelInstance.type === 'sower') {
-        options = {
-          to: emails[modelInstance.type],
-          subject: 'Nova Solicitação de Distintivo de Semeador',
-          template: {
-            path: 'sower/new',
-            data: modelInstance.toObject()
-          }
-        }
-      } else if (modelInstance.type === 'level') {
-        options = {
-          to: emails[modelInstance.type],
-          subject: 'Nova Solicitação de Nível',
-          template: {
-            path: 'level/new',
-            data: modelInstance.toObject()
-          }
-        }
-      } else if (modelInstance.type === 'book') {
-        options = {
-          to: emails[modelInstance.type],
-          subject: 'Nova Solicitação de Caderno/Projeto',
-          template: {
-            path: 'book/new',
-            data: modelInstance.toObject()
-          }
-        }
+      if (!fs.existsSync(localPath)) {
+        fs.mkdirSync(localPath)
       }
 
-      if (options !== {}) mailer.sendMail(options)
-    })
+      const newFile = localPath + '/' + file.name
+      fs.writeFile(newFile, file.data, (err) => {
+        if (err) {
+          res.status(500).json({error: err})
+        }
+
+        modelInstance['file'] = `${modelPath}/${file.name}`
+        modelInstance.save((err, data) => {
+          if (err) throw err
+
+          res.status(201).json(modelInstance)
+          sendCreateEmail(modelInstance)
+        })
+      })
+    } else {
+      modelInstance.save((err, data) => {
+        if (err) throw err
+
+        res.status(201).json(modelInstance)
+        sendCreateEmail(modelInstance)
+      })
+    }
   },
   findOneAndUpdate: (req, res) => {
     const query = {_id: req.params.id}
