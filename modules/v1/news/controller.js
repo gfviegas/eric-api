@@ -134,7 +134,7 @@ const customMethods = {
   update: (req, res) => {
     const query = {_id: req.params.id}
     const mod = req.body
-    const file = req.files.image
+    const file = (req.files && req.files.image) ? req.files.image : false
     if (file) {
       const modelPath = `news/${req.params.id}`
       const localPath = `${process.cwd()}/public/${modelPath}`
