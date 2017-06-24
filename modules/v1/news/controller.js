@@ -186,6 +186,36 @@ const customMethods = {
 
       res.status(200).json(data)
     })
+  },
+  rescrape: (req, res) => {
+    const query = {_id: req.params.id}
+
+    Model.findOne(query, (err, news) => {
+      if (err) throw err
+
+      const newsUrl = `${process.env.NEWS_URL}${news.slug}`
+      prerender.recache(newsUrl)
+      .then(() => {
+        const data = {
+          id: newsUrl,
+          scrape: true
+        }
+
+        FB.api('/', 'post', data, (response) => {
+          if (!response || response.error) {
+            errorHandler.sendMail({message: `Erro ao atualizar o cache da noticia ${newsUrl}.`, trace: JSON.stringify(response.error)})
+            res.status(500).json({error: response.error})
+            return false
+          }
+
+          res.status(200).json({success: true})
+        })
+      })
+      .catch((error) => {
+        res.status(500).json({error: error})
+        errorHandler.sendMail({message: `Erro ao limpar o cache do prerender da url ${newsUrl}. Chamada de atualização de scrape.`})
+      })
+    })
   }
 }
 

@@ -37,6 +37,9 @@ describe('Module News: Routes', () => {
     it('should have a PATCH /:id/views route', () => {
       expect(routesHelper.checkRoute('patch', '/:id/views')).to.be.true
     })
+    it('should have a PATCH /:id/rescrape route', () => {
+      expect(routesHelper.checkRoute('patch', '/:id/rescrape')).to.be.true
+    })
   })
   describe('DELETE', () => {
     it('should have a DELETE /:id route', () => {

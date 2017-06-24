@@ -26,4 +26,7 @@ router.patch('/:id', [jwtMiddleware, validators.update, validators.uniqueSlugVal
 // Delete
 router.delete('/:id', [jwtMiddleware], controller.remove)
 
+// Rescrape the URL on Facebook End
+router.patch('/:id/rescrape', [jwtMiddleware], controller.rescrape)
+
 module.exports = router
