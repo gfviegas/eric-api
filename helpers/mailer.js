@@ -5,7 +5,7 @@ const email = require('emailjs/email')
 const server = email.server.connect({
   user: process.env.MAIL_USER,
   password: process.env.MAIL_PASSWORD,
-  host: 'br718.hostgator.com.br',
+  host: process.env.MAIL_HOST,
   port: process.env.MAIL_PORT,
   ssl: true
 })
