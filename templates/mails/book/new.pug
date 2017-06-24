@@ -2,7 +2,7 @@ extends ../base-layout.pug
 
 block append banner
   td(bgcolor='#ffffff')
-    img.fluid(src=`${email.imgPath}book.jpg`, aria-hidden='true', width='680', height='', alt='alt_text', border='0', align='center', style='width: 100%; max-width: 680px; height: auto; background: #dddddd; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555;')
+    img.fluid(src=`${_email.imgPath}book.jpg`, aria-hidden='true', width='680', height='', alt='alt_text', border='0', align='center', style='width: 100%; max-width: 680px; height: auto; background: #dddddd; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555;')
 block append content
   td(bgcolor='#ffffff')
     table(role='presentation', aria-hidden='true', cellspacing='0', cellpadding='0', border='0', width='100%')
@@ -15,7 +15,7 @@ block append content
           table(role='presentation', aria-hidden='true', cellspacing='0', cellpadding='0', border='0', align='center', style='margin: auto')
             tr
               td.button-td(style='border-radius: 3px; background: #222222; text-align: center;')
-                a.button-a(href=`${email.admin_url}book/update/${_id}`, style='background: #222222; border: 15px solid #222222; font-family: sans-serif; font-size: 13px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold;')
+                a.button-a(href=`${_email.admin_url}book/update/${_id}`, style='background: #222222; border: 15px solid #222222; font-family: sans-serif; font-size: 13px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px; font-weight: bold;')
                   span.button-link(style='color:#ffffff;') &nbsp;&nbsp;&nbsp;&nbsp;Confira no Sistema&nbsp;&nbsp;&nbsp;&nbsp;
       tr
         td(style='padding: 40px; text-align: left; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555;')

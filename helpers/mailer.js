@@ -5,13 +5,13 @@ const email = require('emailjs/email')
 const server = email.server.connect({
   user: process.env.MAIL_USER,
   password: process.env.MAIL_PASSWORD,
-  host: process.env.MAIL_HOST,
+  host: 'br718.hostgator.com.br',
   port: process.env.MAIL_PORT,
   ssl: true
 })
 
 const sendMail = (options) => {
-  const data = Object.assign({email: emailData}, options.template.data)
+  const data = Object.assign({_email: emailData}, options.template.data)
   const mailPath = `${process.cwd()}/templates/mails/${options.template.path}.pug`
   const htmlstream = pug.renderFile(mailPath, data)
   const message = {
@@ -27,8 +27,10 @@ const sendMail = (options) => {
 
   server.send(message, (error, info) => {
     if (error) {
+      console.log(JSON.stringify(error))
       return {success: false, error: error}
     }
+    console.log(JSON.stringify(info))
     return {success: true, info: info}
   })
 }

@@ -23,7 +23,12 @@ const structure = {
   },
   roles: [{
     type: String
-  }]
+  }],
+  passwordToken: {
+    type: String,
+    required: false,
+    select: false
+  }
 }
 
 const options = {
