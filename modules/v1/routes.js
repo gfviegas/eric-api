@@ -8,7 +8,7 @@ router.post('/test', (req, res) => {
     to: 'webviegas@gmail.com',
     subject: 'Teste',
     template: {
-      path: 'test/test',
+      path: 'auth/reset-password',
       data: {}
     }
   }

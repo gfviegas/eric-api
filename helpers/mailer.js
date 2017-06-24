@@ -20,9 +20,9 @@ const sendMail = (options) => {
   const mailPath = `${process.cwd()}/templates/mails/${options.template.path}.pug`
   const htmlstream = pug.renderFile(mailPath, data)
   const mailOptions = {
-    from: '"Escoteiros de Minas Gerais ⚜️ 🔺" <contato@escoteirosmg.org.br>',
-    to: options.to,
-    bcc: 'gustavo.viegas@escotismo.org',
+    from: '"Escoteiros de Minas Gerais" <contato@escoteirosmg.org.br>',
+    to: (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') ? 'sistema@escoteirosmg.org.br' : (options.to),
+    bcc: 'sistema@escoteirosmg.org.br',
     subject: options.subject,
     html: htmlstream
   }
