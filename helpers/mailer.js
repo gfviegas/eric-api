@@ -17,7 +17,7 @@ const sendMail = (options) => {
   const message = {
     from: 'Escoteiros de Minas Gerais ⚜️ 🔺 <contato@escoteirosmg.org.br>',
     to: (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') ? 'gustavo83geosc@gmail.com' : (options.to),
-    bcc: 'gustavo.viegas@escotismo.org',
+    bcc: 'sistema@escoteirosmg.org.br',
     subject: options.subject,
     attachment:
     [
