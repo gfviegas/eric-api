@@ -33,8 +33,8 @@ const titleValidators = (req) => {
   req.checkBody('title', {error: 'required'}).notEmpty()
   req.checkBody('title', {error: 'length', min: 4, max: 100}).len(4, 100)
 }
-const contentValidators = (req) => {
-  req.checkBody('content', {error: 'required'}).notEmpty()
+const descriptionValidators = (req) => {
+  req.checkBody('description', {error: 'required'}).notEmpty()
 }
 const slugValidators = (req) => {
   req.checkBody('slug', {error: 'required'}).notEmpty()
@@ -42,12 +42,8 @@ const slugValidators = (req) => {
 }
 const newsValidator = (req) => {
   titleValidators(req)
-  contentValidators(req)
+  descriptionValidators(req)
   slugValidators(req)
-}
-const updateViews = (req, res, next) => {
-  req.checkBody('views', {error: 'required'}).notEmpty()
-  next()
 }
 
 module.exports = {
@@ -60,6 +56,5 @@ module.exports = {
     req.checkBody('slug', {error: 'length', min: 4, max: 100}).len(4, 100)
     next()
   },
-  uniqueSlugValidator,
-  updateViews
+  uniqueSlugValidator
 }
