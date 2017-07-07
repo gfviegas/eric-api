@@ -87,6 +87,15 @@ const customMethods = {
   find: (req, res) => {
     let query = createQueryObject(req)
 
+    // When searching through events section and hosts, match any of the given filters.
+    if (req.query.section && req.query.section.length) {
+      console.log(`QUERY SECTION: ${JSON.stringify(req.query.section)}.`)
+      query.section = {$in: req.query.section}
+    }
+    if (req.query.hosts && req.query.hosts.length) {
+      query.hosts = {$in: req.query.hosts}
+    }
+
     if (req.query.filter && req.query.filter.length) {
       let regex = new RegExp(req.query.filter, 'i')
       query = Object.assign(query, {
