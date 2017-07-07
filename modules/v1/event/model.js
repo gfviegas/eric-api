@@ -43,24 +43,27 @@ const structure = {
     required: true
   },
   start_date: {
-    type: Date,
+    type: String,
     required: true
   },
   end_date: {
-    type: Date,
+    type: String,
     required: true
   },
   section: [{
     type: String,
-    enum: ['Ramo Lobinho', 'Ramo Escoteiro', 'Ramo Sênior', 'Ramo Pioneiro', 'Adultos'],
-    required: false
+    enum: ['Ramo Lobinho', 'Ramo Escoteiro', 'Ramo Sênior', 'Ramo Pioneiro', 'Adultos']
   }],
-  host: {
+  hosts: [{
     type: String,
-    enum: ['Regional', 'Distrital', 'Nacional', 'Internacional', 'Outro'],
-    required: true
-  },
-  files: [fileSchema]
+    enum: ['Regional', 'Distrital', 'Nacional', 'Internacional', 'Outro']
+  }],
+  files: [fileSchema],
+  last_updated_by: {
+    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
+  }
 }
 
 const schema = mongoose.Schema(structure, options)

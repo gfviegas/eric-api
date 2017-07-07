@@ -30,7 +30,6 @@ const sendMail = (options) => {
       console.log(JSON.stringify(error))
       return {success: false, error: error}
     }
-    console.log(JSON.stringify(info))
     return {success: true, info: info}
   })
 }

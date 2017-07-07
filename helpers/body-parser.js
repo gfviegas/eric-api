@@ -37,7 +37,7 @@ module.exports = function (settings) {
       busboy.on('field', function (key, value) {
         debug('Received field %s: %s', key, value)
 
-        const regexCondition = value.match(/\{(.*)\}/)
+        const regexCondition = value.match(/\{(.*)\}/) || value.match(/\[(.*)\]/)
 
         // is a json?
         if (regexCondition) {

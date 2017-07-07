@@ -10,6 +10,7 @@ const jwtHelper = rfr('helpers/jwt')
 const errorHandler = rfr('helpers/error')
 const FB = rfr('helpers/facebook')
 const prerender = rfr('helpers/prerender')
+const onesignal = rfr('helpers/onesignal')
 const createQueryObject = rfr('helpers/request').createQueryObject
 
 const controllerActions = {}
@@ -21,34 +22,56 @@ const createMethods = (element, index) => {
 }
 importActions.forEach(createMethods)
 
-const createFacebookPost = (instance) => {
+const clearCacheAndDispatch = (instance) => {
   const eventUrl = `${process.env.EVENTS_URL}${instance.slug}`
   prerender.recache(eventUrl)
   .then(() => {
-    const data = {
-      published: false,
-      message: `Eventos! ${instance.title} - Veja mais no link. #Escoteiros #EscoteirosDeMinas`,
-      link: eventUrl,
-      scheduled_publish_time: Math.round(new Date().getTime() / 1000) + (60 * 60)
-    }
-    FB.api(`${process.env.FB_PAGE}/feed`, 'post', data, (res) => {
-      if (!res || res.error) {
-        errorHandler.sendMail({message: `Erro ao postar o evento ${eventUrl}.`, trace: JSON.stringify(res.error)})
-        return false
-      }
-
-      const query = {_id: instance._id}
-      const mod = {$set: {fb_post_id: (res.post_id || res.id)}}
-      Model.findOneAndUpdate(query, mod, {new: true}, (err, data) => {
-        if (err) {
-          errorHandler.sendMail({message: `Erro ao atualizar o evento pós-postagem ${eventUrl}.`, trace: JSON.stringify(err)})
-          throw err
-        }
-      })
-    })
+    createFacebookPost(instance, eventUrl)
+    sendNotification(instance, eventUrl)
   })
   .catch(() => {
-    errorHandler.sendMail({message: `Erro ao limpar o cache do prerender da url ${eventUrl}. O post no facebook não foi criado.`})
+    errorHandler.sendMail({message: `Erro ao limpar o cache do prerender da url ${eventUrl}.`})
+  })
+}
+
+const createFacebookPost = (instance, eventUrl) => {
+  const data = {
+    published: false,
+    message: `Eventos! ${instance.title} - Veja mais no link. #Escoteiros #EscoteirosDeMinas`,
+    link: eventUrl,
+    scheduled_publish_time: Math.round(new Date().getTime() / 1000) + (60 * 60)
+  }
+  FB.api(`${process.env.FB_PAGE}/feed`, 'post', data, (res) => {
+    if (!res || res.error) {
+      errorHandler.sendMail({message: `Erro ao postar o evento ${eventUrl}.`, trace: JSON.stringify(res.error)})
+      return false
+    }
+
+    const query = {_id: instance._id}
+    const mod = {$set: {fb_post_id: (res.post_id || res.id)}}
+    Model.findOneAndUpdate(query, mod, {new: true}, (err, data) => {
+      if (err) {
+        errorHandler.sendMail({message: `Erro ao atualizar o evento pós-postagem ${eventUrl}.`, trace: JSON.stringify(err)})
+        throw err
+      }
+    })
+  })
+}
+
+const sendNotification = (instance, eventUrl) => {
+  const options = {
+    image: `${process.env.ASSETS_URL}${instance.image}`,
+    url: eventUrl,
+    title: `Escoteiros de Minas | Eventos`,
+    message: `Novo Evento - ${instance.title}`
+  }
+
+  onesignal.sendNotification(options)
+  .then(() => {
+    console.log('Notificação Enviada')
+  })
+  .catch(() => {
+    errorHandler.sendMail({message: `Erro ao enviar a notificação pra OneSignal da notícia ${eventUrl}.`})
   })
 }
 
@@ -114,6 +137,8 @@ const customMethods = {
     data['last_updated_by'] = jwtHelper.getUserId(req)
     const modelInstance = new Model(data)
 
+    console.log(JSON.stringify(data))
+
     if (req.files) {
       const file = req.files.image
       const modelPath = `events/${modelInstance._id}`
@@ -123,13 +148,22 @@ const customMethods = {
         fs.mkdirSync(localPath)
       }
 
-      const newFile = localPath + '/' + file.name
+      let fileName = ''
+      if (file.mimetype === 'image/jpeg' || 'image/jpg') {
+        fileName = `image.jpg`
+      } else if (file.mimetype === 'image/png') {
+        fileName = `image.png`
+      } else {
+        return res.status(422).json({format: 'invalid_format'})
+      }
+
+      const newFile = localPath + '/' + fileName
       fs.writeFile(newFile, file.data, (err) => {
         if (err) {
           res.status(500).json({error: err})
         }
 
-        modelInstance['image'] = `${modelPath}/${file.name}`
+        modelInstance['image'] = `${modelPath}/${fileName}`
         modelInstance.save((err, data) => {
           if (err) throw err
           data
@@ -137,8 +171,17 @@ const customMethods = {
             if (err) throw err
             res.status(201).json(events)
 
-            // Post on facebook after 5 minutes
-            setTimeout(() => { createFacebookPost(data) }, (60 * 5) * 1000)
+            jimp.read(newFile)
+            .then((image) => {
+              image.resize(480, 480)
+              .quality(90)
+              .write(newFile)
+            })
+            .catch((error) => {
+              throw error
+            })
+
+            setTimeout(() => { clearCacheAndDispatch(data) }, 1000)
           })
         })
       })
@@ -150,8 +193,7 @@ const customMethods = {
           if (err) throw err
           res.status(201).json(events)
 
-          // Post on facebook after 5 minutes
-          setTimeout(() => { createFacebookPost(data) }, (60 * 5) * 1000)
+          setTimeout(() => { clearCacheAndDispatch(data) }, 1000)
         })
       })
     }
