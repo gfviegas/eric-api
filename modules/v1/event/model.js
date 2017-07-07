@@ -43,12 +43,12 @@ const structure = {
     required: true
   },
   start_date: {
-    type: String,
+    type: Date,
     required: true
   },
   end_date: {
-    type: String,
-    required: true
+    type: Date,
+    required: false
   },
   section: [{
     type: String,

@@ -5,6 +5,7 @@ const Model = require('./model').model
 const extend = require('extend')
 const ObjectId = require('mongoose').Types.ObjectId
 const jimp = require('jimp')
+const moment = require('moment')
 
 const jwtHelper = rfr('helpers/jwt')
 const errorHandler = rfr('helpers/error')
@@ -87,9 +88,12 @@ const customMethods = {
   find: (req, res) => {
     let query = createQueryObject(req)
 
+    if (req.query.start_date) {
+      query['start_date'] = {$gte: moment(req.query.start_date, 'DD/MM/YYYY')}
+    }
+
     // When searching through events section and hosts, match any of the given filters.
     if (req.query.section && req.query.section.length) {
-      console.log(`QUERY SECTION: ${JSON.stringify(req.query.section)}.`)
       query.section = {$in: req.query.section}
     }
     if (req.query.hosts && req.query.hosts.length) {
@@ -104,7 +108,7 @@ const customMethods = {
           {description: regex},
           {place: regex},
           {section: regex},
-          {host: regex},
+          {hosts: regex},
           {slug: regex}
         ]
       })
@@ -127,7 +131,7 @@ const customMethods = {
         }
         Model
         .find(query)
-        .sort({'created_at': -1})
+        .sort({'start_date': 1})
         .skip(pagOptions.page * pagOptions.limit)
         .limit(pagOptions.limit)
         .populate('last_updated_by')
@@ -144,9 +148,9 @@ const customMethods = {
   create: (req, res) => {
     const data = req.body
     data['last_updated_by'] = jwtHelper.getUserId(req)
+    data.start_date = moment(data.end_date, 'DD/MM/YYYY')
+    if (data.end_date) data.end_date = moment(data.end_date, 'DD/MM/YYYY')
     const modelInstance = new Model(data)
-
-    console.log(JSON.stringify(data))
 
     if (req.files) {
       const file = req.files.image
@@ -210,6 +214,9 @@ const customMethods = {
   update: (req, res) => {
     const mod = req.body
     mod['last_updated_by'] = jwtHelper.getUserId(req)
+    mod.start_date = moment(mod.end_date, 'DD/MM/YYYY')
+    if (mod.end_date) mod.end_date = moment(mod.end_date, 'DD/MM/YYYY')
+
     Model.findByIdAndUpdate(req.params.id, {$set: mod}, {new: true}, (err, modelInstance) => {
       if (err) throw err
 
