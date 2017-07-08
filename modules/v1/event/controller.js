@@ -24,15 +24,21 @@ const createMethods = (element, index) => {
 importActions.forEach(createMethods)
 
 const clearCacheAndDispatch = (instance) => {
-  const eventUrl = `${process.env.EVENTS_URL}${instance.slug}`
-  prerender.recache(eventUrl)
-  .then(() => {
-    createFacebookPost(instance, eventUrl)
-    sendNotification(instance, eventUrl)
-  })
-  .catch(() => {
-    errorHandler.sendMail({message: `Erro ao limpar o cache do prerender da url ${eventUrl}.`})
-  })
+  /**
+   *
+   * TEMPORARIAMENTE DESATIVADO
+   *
+   */
+
+  // const eventUrl = `${process.env.EVENTS_URL}${instance.slug}`
+  // prerender.recache(eventUrl)
+  // .then(() => {
+  //   createFacebookPost(instance, eventUrl)
+  //   sendNotification(instance, eventUrl)
+  // })
+  // .catch(() => {
+  //   errorHandler.sendMail({message: `Erro ao limpar o cache do prerender da url ${eventUrl}.`})
+  // })
 }
 
 const createFacebookPost = (instance, eventUrl) => {
@@ -40,7 +46,7 @@ const createFacebookPost = (instance, eventUrl) => {
     published: false,
     message: `Eventos! ${instance.title} - Veja mais no link. #Escoteiros #EscoteirosDeMinas`,
     link: eventUrl,
-    scheduled_publish_time: Math.round(new Date().getTime() / 1000) + (60 * 60)
+    scheduled_publish_time: Math.round(new Date().getTime() / 1000) + (60 * 5)
   }
   FB.api(`${process.env.FB_PAGE}/feed`, 'post', data, (res) => {
     if (!res || res.error) {
@@ -148,8 +154,8 @@ const customMethods = {
   create: (req, res) => {
     const data = req.body
     data['last_updated_by'] = jwtHelper.getUserId(req)
-    data.start_date = moment(data.end_date, 'DD/MM/YYYY')
-    if (data.end_date) data.end_date = moment(data.end_date, 'DD/MM/YYYY')
+    data.start_date = moment(data.start_date, 'DD/MM/YYYY')
+    if (data.end_date && data.end_date.length) data.end_date = moment(data.end_date, 'DD/MM/YYYY')
     const modelInstance = new Model(data)
 
     if (req.files) {
@@ -178,6 +184,7 @@ const customMethods = {
 
         modelInstance['image'] = `${modelPath}/${fileName}`
         modelInstance.save((err, data) => {
+          if (err) console.log(JSON.stringify(err))
           if (err) throw err
           data
           .populate('last_updated_by', (err, events) => {
