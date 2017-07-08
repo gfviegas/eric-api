@@ -221,7 +221,7 @@ const customMethods = {
   update: (req, res) => {
     const mod = req.body
     mod['last_updated_by'] = jwtHelper.getUserId(req)
-    mod.start_date = moment(mod.end_date, 'DD/MM/YYYY')
+    mod.start_date = moment(mod.start_date, 'DD/MM/YYYY')
     if (mod.end_date) mod.end_date = moment(mod.end_date, 'DD/MM/YYYY')
 
     Model.findByIdAndUpdate(req.params.id, {$set: mod}, {new: true}, (err, modelInstance) => {
