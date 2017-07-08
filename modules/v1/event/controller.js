@@ -229,7 +229,7 @@ const customMethods = {
 
       if (!modelInstance) res.status(404).json({error: 'event_not_found'})
 
-      if (req.files) {
+      if (req.files && req.files.image) {
         const file = req.files.image
         const modelPath = `events/${modelInstance._id}`
         const localPath = `${process.cwd()}/public/${modelPath}`
@@ -274,7 +274,14 @@ const customMethods = {
           })
         })
       } else {
-        res.status(200).json(modelInstance)
+        modelInstance.save((err, data) => {
+          if (err) throw err
+          data
+          .populate('last_updated_by', (err, event) => {
+            if (err) throw err
+            res.status(200).json(event)
+          })
+        })
       }
     })
   },
