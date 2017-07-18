@@ -24,21 +24,15 @@ const createMethods = (element, index) => {
 importActions.forEach(createMethods)
 
 const clearCacheAndDispatch = (instance) => {
-  /**
-   *
-   * TEMPORARIAMENTE DESATIVADO
-   *
-   */
-
-  // const eventUrl = `${process.env.EVENTS_URL}${instance.slug}`
-  // prerender.recache(eventUrl)
-  // .then(() => {
-  //   createFacebookPost(instance, eventUrl)
-  //   sendNotification(instance, eventUrl)
-  // })
-  // .catch(() => {
-  //   errorHandler.sendMail({message: `Erro ao limpar o cache do prerender da url ${eventUrl}.`})
-  // })
+  const eventUrl = `${process.env.EVENTS_URL}${instance.slug}`
+  prerender.recache(eventUrl)
+  .then(() => {
+    createFacebookPost(instance, eventUrl)
+    sendNotification(instance, eventUrl)
+  })
+  .catch(() => {
+    errorHandler.sendMail({message: `Erro ao limpar o cache do prerender da url ${eventUrl}.`})
+  })
 }
 
 const createFacebookPost = (instance, eventUrl) => {
