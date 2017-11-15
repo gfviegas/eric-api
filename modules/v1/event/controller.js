@@ -40,7 +40,7 @@ const createFacebookPost = (instance, eventUrl) => {
     published: false,
     message: `Eventos! ${instance.title} - Veja mais no link. #Escoteiros #EscoteirosDeMinas`,
     link: eventUrl,
-    scheduled_publish_time: Math.round(new Date().getTime() / 1000) + (60 * 10)
+    scheduled_publish_time: Math.round(new Date().getTime() / 1000) + (60 * 60)
   }
   FB.api(`${process.env.FB_PAGE}/feed`, 'post', data, (res) => {
     if (!res || res.error) {

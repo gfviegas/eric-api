@@ -29,6 +29,7 @@ router.use('/news', require('./news/routes'))
 router.use('/page-content', require('./pageContent/routes'))
 router.use('/rewards', require('./reward/routes'))
 router.use('/users', require('./user/routes'))
+router.use('/setup', require('./setup/routes'))
 
 // Return router
 module.exports = router
