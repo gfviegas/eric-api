@@ -12,7 +12,7 @@ router.get('/', controller.find)
 router.post('/', [jwtMiddleware, validators.create, validators.uniqueKeyValidator], controller.create)
 
 // Update
-router.put('/', [jwtMiddleware], controller.update)
+router.patch('/', [jwtMiddleware], controller.update)
 
 // Check if exists
 router.post('/key', [jwtMiddleware, validators.keyCheck], controller.checkExists)
