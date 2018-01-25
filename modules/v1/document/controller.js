@@ -33,7 +33,7 @@ const customMethods = {
 
     const pagOptions = {
       page: Number.parseInt(req.query.page - 1) || 0,
-      limit: Number.parseInt(req.query.limit) || 15
+      limit: Number.parseInt(req.query.limit) || 200
     }
 
     Model
