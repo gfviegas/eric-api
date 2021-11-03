@@ -58,7 +58,7 @@
     "request-promise": "^4.2.0",
     "rfr": "^1.2.3",
     "util": "^0.10.3",
-    "validator": "^6.2.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
