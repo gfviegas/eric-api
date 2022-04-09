@@ -47,7 +47,7 @@
     "fb": "^1.1.1",
     "jimp": "^0.2.27",
     "jsonwebtoken": "^7.2.1",
-    "moment": "^2.18.1",
+    "moment": "^2.29.2",
     "mongoose": "^4.7.2",
     "mongoose-bcrypt": "^1.4.2",
     "morgan": "^1.7.0",
